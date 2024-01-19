@@ -7,7 +7,6 @@ import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
 import jetbrains.buildServer.configs.kotlin.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.ui.add
-import jetbrains.buildServer.configs.kotlin.vcs.GitVcsRoot
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -34,7 +33,7 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2023.11"
 
 var project = Project {
-    vcsRoot(TeamcityBuildVcs)
+    //vcsRoot(TeamcityBuildVcs)
     buildType(Build)
     buildType(PullRequestBuild)
 }
@@ -43,7 +42,7 @@ object Build : BuildType({
     name = "Master Build"
 
     vcs {
-        root(TeamcityBuildVcs)
+        root(DslContext.settingsRoot.id!!)
         cleanCheckout = true
         excludeDefaultBranchChanges = true
     }
@@ -64,11 +63,11 @@ object PullRequestBuild : BuildType({
     name = "Pull Request Build"
 
     vcs {
-        root(TeamcityBuildVcs)
+        root(DslContext.settingsRoot.id!!)
         cleanCheckout = true
         excludeDefaultBranchChanges = true
     }
-    createParameters( "+:refs/pull/*/merge")
+        createParameters( "+:refs/pull/*/merge")
 
     printPullRequestNumber()
 
@@ -96,18 +95,18 @@ object PullRequestBuild : BuildType({
     }
 })
 
-object TeamcityBuildVcs : GitVcsRoot({
-    name = "Teamcity Build"
-    url = "https://github.com/jpspringall/teamcity-settings-4"
-    branch = "refs/heads/main"
-    branchSpec = "%git.branch.specification%"
-    agentCleanPolicy = GitVcsRoot.AgentCleanPolicy.ALWAYS
-    checkoutPolicy = GitVcsRoot.AgentCheckoutPolicy.NO_MIRRORS
-    authMethod = password {
-        userName = "jpspringall"
-        password = "credentialsJSON:e224d815-b2d6-4dc7-9e5c-11f7d85dbd51"
-    }
-})
+//object TeamcityBuildVcs : GitVcsRoot({
+//    name = "Teamcity Build"
+//    url = "https://github.com/jpspringall/teamcity-settings-2"
+//    branch = "refs/heads/main"
+//    branchSpec = "%git.branch.specification%"
+//    agentCleanPolicy = GitVcsRoot.AgentCleanPolicy.ALWAYS
+//    checkoutPolicy = GitVcsRoot.AgentCheckoutPolicy.NO_MIRRORS
+//    authMethod = password {
+//        userName = "jpspringall"
+//        password = "credentialsJSON:e224d815-b2d6-4dc7-9e5c-11f7d85dbd51"
+//    }
+//})
 
 for (bt : BuildType in project.buildTypes ) {
     val gitSpec = bt.params.findRawParam("git.branch.specification")
