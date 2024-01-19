@@ -26,7 +26,7 @@ object CommonSteps {
                 echo "Id is: ${'$'}id"
                 branch="pull/${'$'}id"
                 echo "Branch is: ${'$'}branch"
-                ech0 "vcsroot.url: %vcsroot.url%
+                echo "vcsroot.url: %vcsroot.url%"
             """.trimIndent()
             }
         }
