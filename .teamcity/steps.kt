@@ -23,10 +23,8 @@ object CommonSteps {
                 name = "Settings 2 Print Pull Request Number"
                 scriptContent = """
                 #!/bin/bash
-                echo "Id is: ${'$'}id"
-                branch="pull/${'$'}id"
-                echo "Branch is: ${'$'}branch"
-                echo "vcsroot.url: "
+                vroot=%vcsroot.url%
+                echo "vroot is: ${'$'}vroot"
             """.trimIndent()
             }
         }
